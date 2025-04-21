@@ -43,6 +43,11 @@
   var marker = L.marker([20.989207059175047, 105.79564008609817]).addTo(map);
   marker.bindPopup("<b>Trường Đại học Hà Nội</b><br>Trường em suýt yêu").openPopup();
 </script>
+   // Thêm chức năng tìm kiếm
+        L.Control.geocoder({
+            defaultMarkGeocode: true
+        }).addTo(map);
+    </script>
 
 </body>
 </html>
