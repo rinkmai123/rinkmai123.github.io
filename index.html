@@ -27,11 +27,17 @@
   // Khởi tạo bản đồ và đặt vị trí trung tâm (tọa độ Việt Nam)
   var map = L.map('map').setView([14.0583, 108.2772], 6);
 
-  // Thêm lớp nền từ OpenStreetMap
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '© OpenStreetMap contributors'
-  }).addTo(map);
+  // // Thêm lớp nền từ OpenStreetMap
+  // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  //   maxZoom: 19,
+  //   attribution: '© OpenStreetMap contributors'
+  // }).addTo(map);
+
+   // Thêm lớp bản đồ vệ tinh từ Mapbox
+        L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/{z}/{x}/{y}?access_token=YOUR_ACCESS_TOKEN', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery &copy; <a href="https://www.mapbox.com">Mapbox</a>',
+            maxZoom: 19,
+        }).addTo(map);
 
   // Thêm 1 marker (ví dụ tại Hà Nội)
   var marker = L.marker([20.989207059175047, 105.79564008609817]).addTo(map);
