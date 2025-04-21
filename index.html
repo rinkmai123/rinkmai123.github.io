@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebGIS Của Mai</title>
+
+    <!-- Liên kết CSS của Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <style>
+        /* Đảm bảo bản đồ chiếm toàn bộ màn hình */
+        #map {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <!-- Liên kết JavaScript của Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <script>
+        // Khởi tạo bản đồ
+        var map = L.map('map').setView([21.0285, 105.8542], 13); // Tọa độ Hà Nội, Việt Nam
+
+        // Thêm lớp bản đồ (tiles) từ OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Thêm một marker vào bản đồ tại tọa độ (21.0285, 105.8542)
+        var marker = L.marker([21.0285, 105.8542]).addTo(map);
+
+        // Thêm popup khi click vào marker
+        marker.bindPopup("<b>Chào mừng đến với Hà Nội!</b>").openPopup();
+    </script>
+</body>
+</html>
