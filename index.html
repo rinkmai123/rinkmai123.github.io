@@ -20,15 +20,6 @@
 <h3 style="text-align:center;">WebGIS của Mai cute</h3>
 <div id="map"></div>
 
-<!-- Chọn dịch vụ tìm kiếm -->
-<div id="search-provider">
-  <label>Chọn dịch vụ tìm kiếm: </label>
-  <select id="provider-select">
-    <option value="osm">OpenStreetMap</option>
-    <option value="mapbox">Mapbox</option>
-  </select>
-</div>
-
 <div id="map"></div>
 
 <!-- Leaflet JS -->
@@ -49,51 +40,55 @@
   const marker = L.marker([20.989207059175047, 105.79564008609817]).addTo(map);
   marker.bindPopup("<b>Trường Đại học Hà Nội</b><br>Trường em suýt yêu").openPopup();
 
-  // ====== Cấu hình GeoSearch =======
-  const { GeoSearchControl, OpenStreetMapProvider, MapBoxProvider } = window.GeoSearch;
+ <!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
 
-  // Tạo các provider
-  const providers = {
-    osm: new OpenStreetMapProvider(),
-    mapbox: new MapBoxProvider({
-      params: {
-        access_token: 'YOUR_MAPBOX_ACCESS_TOKEN' // 👉 Thay bằng API Key thực tế của bạn!
-      }
-    })
+  // Khởi tạo bản đồ
+  var map = L.map('map').setView([14.0583, 108.2772], 6);
+
+  // Các layer nền
+  var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0','mt1','mt2','mt3'],
+    attribution: '© Google Maps'
+  });
+
+  var googleSatellite = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0','mt1','mt2','mt3'],
+    attribution: '© Google Satellite'
+  });
+
+  var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}', {
+    maxZoom: 20,
+    subdomains: ['mt0','mt1','mt2','mt3'],
+    attribution: '© Google Terrain'
+  });
+
+  var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap contributors'
+  });
+
+  // Thêm mặc định là Google Hybrid
+  googleHybrid.addTo(map);
+
+
+  // Tìm kiếm địa điểm
+  L.Control.geocoder({
+    defaultMarkGeocode: true
+  }).addTo(map);
+
+  // Tạo control chuyển đổi layer nền
+  var baseMaps = {
+    "🛰️ Google Hybrid": googleHybrid,
+    "🌍 OpenStreetMap": osm,
+    "🗺️ Google Satellite": googleSatellite,
+    "⛰️ Google Terrain": googleTerrain
   };
 
-  // Khởi tạo control với provider mặc định (OSM)
-  let searchControl = new GeoSearchControl({
-    provider: providers.osm,
-    style: 'bar',
-    showPopup: true,
-    autoComplete: true,
-    autoCompleteDelay: 250,
-    retainZoomLevel: false,
-    animateZoom: true,
-    showMarker: true,
-    keepResult: true
-  });
-
-  map.addControl(searchControl);
-
-  // Xử lý thay đổi provider khi người dùng chọn
-  document.getElementById('provider-select').addEventListener('change', function(e) {
-    const selectedProvider = e.target.value;
-    map.removeControl(searchControl);
-    searchControl = new GeoSearchControl({
-      provider: providers[selectedProvider],
-      style: 'bar',
-      showPopup: true,
-      autoComplete: true,
-      autoCompleteDelay: 250,
-      retainZoomLevel: false,
-      animateZoom: true,
-      showMarker: true,
-      keepResult: true
-    });
-    map.addControl(searchControl);
-  });
+  L.control.layers(baseMaps).addTo(map);
 </script>
 
 </body>
