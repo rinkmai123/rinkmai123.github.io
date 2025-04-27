@@ -30,6 +30,10 @@
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap contributors'
     }).addTo(map);
+    
+// Thêm 1 marker (ví dụ tại Hà Nội)
+  var marker = L.marker([21.90969104880636, 105.57950958065994]).addTo(map);
+  marker.bindPopup("<b>Hồ Bảo Linh</b><br>Thái Nguyên").openPopup();
 
     // Load file GeoJSON tại chỗ
     fetch('hobaoling.geojson')
